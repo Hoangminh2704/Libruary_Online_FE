@@ -12,7 +12,6 @@ const AddBookModal: React.FC<AddBookModalProps> = ({ isOpen, onClose }) => {
   return (
     <div className={styles.overlay}>
       <div className={styles.modal}>
-        {/* Header */}
         <div className={styles.header}>
           <div className={styles.iconBox}>
             <span className={`material-symbols-outlined ${styles.iconLarge}`}>
@@ -27,9 +26,7 @@ const AddBookModal: React.FC<AddBookModalProps> = ({ isOpen, onClose }) => {
           </div>
         </div>
 
-        {/* Form */}
         <form className={styles.form} onSubmit={(e) => e.preventDefault()}>
-          {/* File Upload */}
           <div>
             <label className={styles.label}>Book Cover</label>
             <div className={styles.uploadArea}>
@@ -49,7 +46,6 @@ const AddBookModal: React.FC<AddBookModalProps> = ({ isOpen, onClose }) => {
             </div>
           </div>
 
-          {/* Book Title */}
           <div>
             <label className={styles.label}>
               Book Title <span className={styles.required}>*</span>
@@ -61,7 +57,6 @@ const AddBookModal: React.FC<AddBookModalProps> = ({ isOpen, onClose }) => {
             />
           </div>
 
-          {/* Row: Author & ISBN */}
           <div className={styles.row}>
             <div>
               <label className={styles.label}>
@@ -85,7 +80,6 @@ const AddBookModal: React.FC<AddBookModalProps> = ({ isOpen, onClose }) => {
             </div>
           </div>
 
-          {/* Row: Category & Quantity */}
           <div className={styles.row}>
             <div>
               <label className={styles.label}>
@@ -112,7 +106,6 @@ const AddBookModal: React.FC<AddBookModalProps> = ({ isOpen, onClose }) => {
             </div>
           </div>
 
-          {/* Footer Actions */}
           <div className={styles.actions}>
             <button
               type="button"
