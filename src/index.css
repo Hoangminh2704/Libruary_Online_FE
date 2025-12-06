@@ -1,0 +1,29 @@
+:root {
+  /* Màu từ thiết kế của bạn */
+  --primary-color: #2563eb;
+  --primary-hover: #1d4ed8;
+  --bg-light: #ffffff;
+  --surface-light: #f9fafb;
+  --text-main: #1f2937;
+  --text-subtle: #6b7280;
+  --orange-accent: #f97316;
+
+  /* Status colors */
+  --green-bg: #dcfce7;
+  --green-text: #166534;
+  --red-bg: #fee2e2;
+  --red-text: #991b1b;
+}
+
+body {
+  margin: 0;
+  font-family: "Poppins", sans-serif; /* Đổi sang Poppins */
+  color: var(--text-main);
+  background-color: var(--bg-light);
+}
+
+/* Helper cho material icons */
+.material-icons {
+  font-size: 24px;
+  vertical-align: middle;
+}

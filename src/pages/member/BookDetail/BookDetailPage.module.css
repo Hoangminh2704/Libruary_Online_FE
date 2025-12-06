@@ -1,0 +1,315 @@
+/* Container chung của trang */
+.pageContainer {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 2rem 1rem;
+}
+
+/* Breadcrumb (Đường dẫn) */
+.breadcrumb {
+  display: flex;
+  align-items: center;
+  font-size: 0.875rem;
+  color: var(--text-subtle);
+  margin-bottom: 2rem;
+}
+
+.breadcrumbLink {
+  color: inherit;
+  text-decoration: none;
+  display: flex;
+  align-items: center;
+}
+
+.breadcrumbLink:hover {
+  color: var(--primary-color);
+}
+
+.breadcrumbSeparator {
+  margin: 0 0.5rem;
+  font-size: 1rem;
+}
+
+.breadcrumbActive {
+  color: var(--text-main);
+  font-weight: 500;
+}
+
+/* Khối thông tin chính (Card trắng) */
+.mainCard {
+  background-color: var(--bg-light);
+  border-radius: 0.75rem;
+  box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+  padding: 2rem;
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 3rem;
+}
+
+/* Cột bên trái: Ảnh bìa */
+.coverColumn {
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+}
+
+.coverWrapper {
+  position: relative;
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+  border-radius: 0.5rem;
+  overflow: hidden;
+  max-width: 320px;
+  width: 100%;
+}
+
+.coverImage {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+/* Cột bên phải: Chi tiết */
+.infoColumn {
+  display: flex;
+  flex-direction: column;
+}
+
+.headerRow {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+}
+
+.bookTitle {
+  font-size: 2.25rem;
+  font-weight: 700;
+  color: var(--text-main);
+  margin: 0;
+  line-height: 1.2;
+}
+
+.bookAuthor {
+  font-size: 1.25rem;
+  color: var(--text-subtle);
+  margin-top: 0.5rem;
+}
+
+.favoriteBtn {
+  padding: 0.5rem;
+  border-radius: 50%;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.favoriteBtn:hover {
+  background-color: #f3f4f6;
+}
+
+/* Rating & Status */
+.metaRow {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-top: 1rem;
+}
+
+.stars {
+  display: flex;
+  color: #eab308; /* Yellow */
+}
+
+.ratingText {
+  color: var(--text-subtle);
+  font-size: 1rem;
+}
+
+.statusBadge {
+  background-color: var(--green-bg);
+  color: var(--green-text);
+  font-size: 0.875rem;
+  font-weight: 500;
+  padding: 0.25rem 0.75rem;
+  border-radius: 9999px;
+}
+
+/* Description */
+.descriptionSection {
+  margin-top: 2rem;
+}
+
+.sectionHeading {
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: var(--text-main);
+  margin-bottom: 0.5rem;
+}
+
+.descriptionText {
+  color: var(--text-subtle);
+  line-height: 1.625;
+  margin-bottom: 1rem;
+}
+
+/* Info Grid (ISBN, Pages...) */
+.infoGrid {
+  margin-top: 2rem;
+  padding-top: 2rem;
+  border-top: 1px solid #e5e7eb;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1.5rem;
+}
+
+.infoLabel {
+  font-weight: 500;
+  color: var(--text-subtle);
+  font-size: 0.875rem;
+}
+
+.infoValue {
+  color: var(--text-main);
+  margin-top: 0.25rem;
+  font-weight: 500;
+}
+
+/* Action Buttons */
+.actionButtons {
+  margin-top: 2.5rem;
+  display: flex;
+  gap: 1rem;
+  align-items: center;
+}
+
+.btnPrimary {
+  background-color: var(--primary-color);
+  color: white;
+  font-weight: 600;
+  padding: 0.75rem 1.5rem;
+  border-radius: 0.5rem;
+  border: none;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  cursor: pointer;
+  transition: opacity 0.2s;
+}
+
+.btnPrimary:hover {
+  opacity: 0.9;
+}
+
+.btnOutline {
+  background-color: white;
+  border: 1px solid var(--primary-color);
+  color: var(--primary-color);
+  font-weight: 600;
+  padding: 0.75rem 1.5rem;
+  border-radius: 0.5rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.btnOutline:hover {
+  background-color: #eff6ff;
+}
+
+.btnIcon {
+  padding: 0.75rem;
+  border-radius: 50%;
+  border: 1px solid #e5e7eb;
+  background-color: white;
+  color: var(--text-subtle);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.btnIcon:hover {
+  background-color: #f3f4f6;
+}
+
+/* Related Books Section */
+.relatedSection {
+  margin-top: 4rem;
+}
+
+.relatedHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1.5rem;
+}
+
+.viewAllLink {
+  color: var(--primary-color);
+  font-weight: 500;
+  text-decoration: none;
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+}
+
+.relatedGrid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1.5rem;
+}
+
+/* Card nhỏ cho sách liên quan */
+.relatedCard {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.relatedImage {
+  width: 100%;
+  aspect-ratio: 2/3;
+  object-fit: cover;
+  border-radius: 0.5rem;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+}
+
+.relatedTitle {
+  font-weight: 600;
+  color: var(--text-main);
+  margin: 0;
+  font-size: 1rem;
+}
+
+.relatedAuthor {
+  font-size: 0.875rem;
+  color: var(--text-subtle);
+  margin: 0;
+}
+
+.relatedStatus {
+  font-size: 0.875rem;
+  font-weight: 500;
+  margin-top: 0.25rem;
+}
+
+/* Media Queries */
+@media (min-width: 768px) {
+  .infoGrid {
+    grid-template-columns: repeat(4, 1fr);
+  }
+  .relatedGrid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+@media (min-width: 1024px) {
+  .mainCard {
+    grid-template-columns: 1fr 2fr;
+  }
+  .relatedGrid {
+    grid-template-columns: repeat(6, 1fr);
+  }
+}

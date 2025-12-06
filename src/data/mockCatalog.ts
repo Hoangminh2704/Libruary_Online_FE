@@ -1,0 +1,58 @@
+import type { BookItem } from "../types/catalog.types";
+
+export const MOCK_CATALOG: BookItem[] = [
+  {
+    id: "#BK001",
+    title: "The Great Gatsby",
+    author: "F. Scott Fitzgerald",
+    genre: "Fiction",
+    year: "1925",
+    quantity: 5,
+    status: "Available",
+  },
+  {
+    id: "#BK002",
+    title: "To Kill a Mockingbird",
+    author: "Harper Lee",
+    genre: "Fiction",
+    year: "1960",
+    quantity: 3,
+    status: "Available",
+  },
+  {
+    id: "#BK003",
+    title: "1984",
+    author: "George Orwell",
+    genre: "Science Fiction",
+    year: "1949",
+    quantity: 2,
+    status: "Limited",
+  },
+  {
+    id: "#BK004",
+    title: "Pride and Prejudice",
+    author: "Jane Austen",
+    genre: "Romance",
+    year: "1813",
+    quantity: 4,
+    status: "Available",
+  },
+  {
+    id: "#BK005",
+    title: "The Hobbit",
+    author: "J.R.R. Tolkien",
+    genre: "Fantasy",
+    year: "1937",
+    quantity: 0,
+    status: "Out of Stock",
+  },
+  {
+    id: "#BK006",
+    title: "Harry Potter",
+    author: "J.K. Rowling",
+    genre: "Fantasy",
+    year: "1997",
+    quantity: 1,
+    status: "Limited",
+  },
+];

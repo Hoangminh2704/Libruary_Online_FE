@@ -1,0 +1,13 @@
+.container {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem;
+  background-color: var(--bg-light);
+}
+
+.wrapper {
+  width: 100%;
+  max-width: 28rem; /* Tương đương max-w-md */
+}

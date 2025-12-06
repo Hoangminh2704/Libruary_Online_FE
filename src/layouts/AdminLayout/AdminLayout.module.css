@@ -1,0 +1,169 @@
+.container {
+  display: flex;
+  height: 100vh;
+  background-color: var(--bg-light);
+}
+
+.sidebar {
+  width: 16rem;
+  background-color: white;
+  display: flex;
+  flex-direction: column;
+  border-right: 1px solid #e2e8f0;
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 1.5rem;
+  border-bottom: 1px solid transparent;
+}
+
+.logoIcon {
+  background-color: #4361ee; /* Admin Primary Color */
+  padding: 0.5rem;
+  border-radius: 0.5rem;
+  display: flex;
+  color: white;
+}
+
+.brandInfo h1 {
+  font-size: 1.125rem;
+  font-weight: 700;
+  margin: 0;
+  line-height: 1.2;
+}
+
+.brandInfo p {
+  font-size: 0.75rem;
+  color: var(--text-subtle);
+  margin: 0;
+}
+
+.nav {
+  flex: 1;
+  padding: 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.navLink {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.75rem 1rem;
+  border-radius: 0.5rem;
+  text-decoration: none;
+  font-weight: 500;
+  color: var(--text-subtle);
+  transition: all 0.2s;
+}
+
+.navLink:hover {
+  color: #4361ee;
+  background-color: rgba(67, 97, 238, 0.05);
+}
+
+.activeLink {
+  background-color: #4361ee;
+  color: white;
+}
+.activeLink:hover {
+  color: white; /* Giữ màu trắng khi hover active link */
+  background-color: #4361ee;
+}
+
+.userProfile {
+  padding: 1rem;
+  border-top: 1px solid #e2e8f0;
+}
+
+.profileCard {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.75rem;
+  border-radius: 0.5rem;
+  margin-bottom: 0.5rem;
+}
+
+.profileCard:hover {
+  background-color: #f8fafc;
+}
+
+.profileInfo {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  flex: 1;
+}
+
+.avatar {
+  width: 2.5rem;
+  height: 2.5rem;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.adminName {
+  font-size: 0.875rem;
+  font-weight: 600;
+  margin: 0;
+  color: var(--text-main);
+}
+
+.adminRole {
+  font-size: 0.75rem;
+  color: var(--text-subtle);
+  margin: 0;
+}
+
+.expandBtn {
+  background: none;
+  border: none;
+  color: #64748b;
+  cursor: pointer;
+  padding: 0.25rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 0.25rem;
+  transition: background-color 0.2s;
+}
+
+.expandBtn:hover {
+  background-color: #e2e8f0;
+}
+
+.logoutBtn {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  padding: 0.75rem 1rem;
+  background-color: #fee2e2;
+  color: #dc2626;
+  border: none;
+  border-radius: 0.5rem;
+  font-weight: 500;
+  font-size: 0.875rem;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.logoutBtn:hover {
+  background-color: #fecaca;
+}
+
+.logoutBtn:active {
+  transform: scale(0.98);
+}
+
+.mainWrapper {
+  flex: 1;
+  overflow-y: auto;
+  padding: 2rem;
+}

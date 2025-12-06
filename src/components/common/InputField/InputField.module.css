@@ -1,0 +1,58 @@
+.container {
+  margin-bottom: 1rem;
+}
+
+.label {
+  display: block;
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: #374151;
+  margin-bottom: 0.5rem;
+}
+
+.inputWrapper {
+  position: relative;
+}
+
+.iconLeft {
+  position: absolute;
+  top: 50%;
+  left: 0.75rem;
+  transform: translateY(-50%);
+  pointer-events: none;
+  color: #9ca3af;
+  display: flex;
+}
+
+.input {
+  display: block;
+  width: 100%;
+  padding: 0.5rem 1rem 0.5rem 2.5rem; /* Left padding né icon */
+  border-radius: 0.5rem;
+  border: 1px solid var(--border-color);
+  background-color: #f9fafb;
+  font-size: 0.875rem;
+  box-sizing: border-box; /* Quan trọng để không bị vỡ layout */
+}
+
+.input:focus {
+  outline: none;
+  border-color: var(--primary-color);
+  box-shadow: 0 0 0 1px var(--primary-color);
+}
+
+.toggleBtn {
+  position: absolute;
+  top: 50%;
+  right: 0.75rem;
+  transform: translateY(-50%);
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: #9ca3af;
+  display: flex;
+}
+
+.toggleBtn:hover {
+  color: #6b7280;
+}
