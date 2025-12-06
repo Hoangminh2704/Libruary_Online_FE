@@ -1,4 +1,3 @@
-/* Header Section */
 .pageHeader {
   display: flex;
   justify-content: space-between;
@@ -36,11 +35,10 @@
   opacity: 0.9;
 }
 
-/* Controls / Filter Bar */
 .controls {
   background-color: white;
   padding: 1.5rem;
-  border-radius: 0.5rem 0.5rem 0 0; /* Bo góc trên */
+  border-radius: 0.5rem 0.5rem 0 0;
   border-bottom: 1px solid #e2e8f0;
   display: flex;
   flex-wrap: wrap;
@@ -106,10 +104,9 @@
   background-color: #f8fafc;
 }
 
-/* Table Container */
 .tableContainer {
   background-color: white;
-  border-radius: 0 0 0.5rem 0.5rem; /* Bo góc dưới */
+  border-radius: 0 0 0.5rem 0.5rem;
   box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
   overflow: hidden;
 }

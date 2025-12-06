@@ -14,7 +14,6 @@ interface AuthContextType {
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
-// Mock credentials
 const MOCK_USERS = {
   admin: { username: "admin", password: "admin123", role: "admin" as const },
   user: { username: "user", password: "user123", role: "user" as const },

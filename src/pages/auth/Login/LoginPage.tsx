@@ -46,7 +46,6 @@ const LoginPage: React.FC = () => {
           <p className={styles.subtitle}>Sign in to your library account</p>
         </div>
 
-        {/* --- FORM --- */}
         <form onSubmit={handleSubmit}>
           {error && (
             <div
@@ -103,7 +102,6 @@ const LoginPage: React.FC = () => {
           </button>
         </form>
 
-        {/* --- FOOTER --- */}
         <div className={styles.dividerWrapper}>
           <div className={styles.dividerLine}></div>
           <span className={styles.dividerText}>or</span>

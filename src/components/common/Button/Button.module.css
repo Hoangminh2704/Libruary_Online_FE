@@ -13,7 +13,6 @@
   border: 1px solid transparent;
 }
 
-/* Primary Style (Xanh) */
 .primary {
   background-color: var(--primary-color);
   color: var(--white);
@@ -23,7 +22,6 @@
   background-color: var(--primary-hover);
 }
 
-/* Secondary Style (Trắng) */
 .secondary {
   background-color: var(--white);
   color: #374151;
@@ -34,7 +32,6 @@
   background-color: #f9fafb;
 }
 
-/* Icon styling */
 .iconWrapper {
   position: absolute;
   left: 1rem;

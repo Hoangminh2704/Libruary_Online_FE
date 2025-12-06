@@ -23,7 +23,6 @@ const BookCatalogPage: React.FC = () => {
   return (
     <AdminLayout>
       <div className={styles.pageWrapper}>
-        {/* Header */}
         <div className={styles.pageHeader}>
           <div>
             <h1 className={styles.title}>Book Catalog</h1>
@@ -40,7 +39,6 @@ const BookCatalogPage: React.FC = () => {
           </button>
         </div>
 
-        {/* Controls & Table Container */}
         <div
           style={{
             borderRadius: "0.5rem",
@@ -84,7 +82,6 @@ const BookCatalogPage: React.FC = () => {
             </button>
           </div>
 
-          {/* Table */}
           <div className={styles.tableWrapper}>
             <div className={styles.tableContainer}>
               <table className={styles.table}>
@@ -152,7 +149,6 @@ const BookCatalogPage: React.FC = () => {
                 </tbody>
               </table>
 
-              {/* Pagination Footer */}
               <div className={styles.pagination}>
                 <span className={styles.pageInfo}>
                   Showing 1 to 6 of 247 results
@@ -176,7 +172,6 @@ const BookCatalogPage: React.FC = () => {
         </div>
       </div>
 
-      {/* Add Book Modal */}
       <AddBookModal
         isOpen={isModalOpen}
         onClose={() => setIsModalOpen(false)}

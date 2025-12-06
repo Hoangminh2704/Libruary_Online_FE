@@ -4,7 +4,6 @@ import styles from "./MyLoansPage.module.css";
 import { MOCK_LOANS } from "../../../data/mockLoan";
 
 const MyLoansPage: React.FC = () => {
-  // Hàm helper để chọn class màu cho status
   const getStatusBadgeClass = (status: string) => {
     switch (status) {
       case "Overdue":
@@ -49,7 +48,6 @@ const MyLoansPage: React.FC = () => {
         </div>
       </div>
 
-      {/* Loans Table */}
       <div className={styles.tableCard}>
         <table className={styles.table}>
           <thead>
@@ -100,9 +98,7 @@ const MyLoansPage: React.FC = () => {
         </table>
       </div>
 
-      {/* Stats Cards */}
       <div className={styles.statsGrid}>
-        {/* Total Borrowed */}
         <div className={styles.statCard}>
           <div className={`${styles.statIcon} ${styles.statIconBlue}`}>
             <span
@@ -116,7 +112,6 @@ const MyLoansPage: React.FC = () => {
             <p className={styles.statValue}>5</p>
           </div>
         </div>
-        {/* Overdue */}
         <div className={styles.statCard}>
           <div className={`${styles.statIcon} ${styles.statIconRed}`}>
             <span
@@ -130,7 +125,6 @@ const MyLoansPage: React.FC = () => {
             <p className={styles.statValue}>2</p>
           </div>
         </div>
-        {/* Due This Week */}
         <div className={styles.statCard}>
           <div className={`${styles.statIcon} ${styles.statIconYellow}`}>
             <span

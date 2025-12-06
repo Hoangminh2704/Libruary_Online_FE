@@ -1,11 +1,9 @@
-/* Container chung của trang */
 .pageContainer {
   max-width: 1200px;
   margin: 0 auto;
   padding: 2rem 1rem;
 }
 
-/* Breadcrumb (Đường dẫn) */
 .breadcrumb {
   display: flex;
   align-items: center;
@@ -35,7 +33,6 @@
   font-weight: 500;
 }
 
-/* Khối thông tin chính (Card trắng) */
 .mainCard {
   background-color: var(--bg-light);
   border-radius: 0.75rem;
@@ -46,7 +43,6 @@
   gap: 3rem;
 }
 
-/* Cột bên trái: Ảnh bìa */
 .coverColumn {
   display: flex;
   justify-content: center;
@@ -68,7 +64,6 @@
   display: block;
 }
 
-/* Cột bên phải: Chi tiết */
 .infoColumn {
   display: flex;
   flex-direction: column;
@@ -107,7 +102,6 @@
   background-color: #f3f4f6;
 }
 
-/* Rating & Status */
 .metaRow {
   display: flex;
   align-items: center;
@@ -117,7 +111,7 @@
 
 .stars {
   display: flex;
-  color: #eab308; /* Yellow */
+  color: #eab308;
 }
 
 .ratingText {
@@ -152,7 +146,6 @@
   margin-bottom: 1rem;
 }
 
-/* Info Grid (ISBN, Pages...) */
 .infoGrid {
   margin-top: 2rem;
   padding-top: 2rem;

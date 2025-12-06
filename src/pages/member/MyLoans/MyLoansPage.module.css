@@ -1,4 +1,3 @@
-/* Alert Box */
 .alert {
   background-color: #fee2e2;
   border-left: 4px solid #ef4444;
@@ -23,7 +22,6 @@
   display: block;
 }
 
-/* Header Section */
 .pageHeader {
   display: flex;
   justify-content: space-between;
@@ -56,7 +54,6 @@
   cursor: pointer;
 }
 
-/* Table Styles */
 .tableCard {
   background-color: white;
   border-radius: 0.5rem;
@@ -112,7 +109,6 @@
   color: var(--text-subtle);
 }
 
-/* Status Badges */
 .badge {
   padding: 0.25rem 0.75rem;
   border-radius: 9999px;
@@ -145,7 +141,6 @@
   cursor: pointer;
 }
 
-/* Stats Grid */
 .statsGrid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);

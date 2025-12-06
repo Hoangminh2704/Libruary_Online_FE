@@ -4,7 +4,6 @@ import styles from "./MemberListPage.module.css";
 import { MOCK_MEMBERS } from "../../../data/mockMember";
 
 const MembersListPage: React.FC = () => {
-  // Helper để lấy class màu cho trạng thái
   const getStatusClass = (status: string) => {
     return status === "Active" ? styles.active : styles.deactivated;
   };
@@ -20,7 +19,6 @@ const MembersListPage: React.FC = () => {
         </button>
       </div>
 
-      {/* Filter Section */}
       <div className={styles.filterCard}>
         <div className={styles.filterHeader}>
           <h2 className={styles.filterTitle}>Filters</h2>
@@ -28,7 +26,6 @@ const MembersListPage: React.FC = () => {
         </div>
 
         <div className={styles.filterGrid}>
-          {/* Search */}
           <div className={styles.searchWrapper}>
             <span className={`material-symbols-outlined ${styles.searchIcon}`}>
               search
@@ -40,21 +37,18 @@ const MembersListPage: React.FC = () => {
             />
           </div>
 
-          {/* Status Dropdown */}
           <select title="Filter by status" className={styles.select}>
             <option>All Status</option>
             <option>Active</option>
             <option>Deactivated</option>
           </select>
 
-          {/* Date Picker (Mock text input) */}
           <input
             type="text"
             placeholder="mm/dd/yyyy"
             className={styles.select}
           />
 
-          {/* Apply Button */}
           <button className={styles.applyBtn}>
             <span
               className="material-symbols-outlined"
@@ -67,9 +61,7 @@ const MembersListPage: React.FC = () => {
         </div>
       </div>
 
-      {/* Members Table */}
       <div className={styles.tableCard}>
-        {/* Table Header Info */}
         <div className={styles.tableHeader}>
           <div>
             <h3 className={styles.tableTitle}>Members List</h3>
@@ -85,7 +77,6 @@ const MembersListPage: React.FC = () => {
           </div>
         </div>
 
-        {/* Table Content */}
         <div className={styles.tableOverflow}>
           <table className={styles.table}>
             <thead>
@@ -155,7 +146,6 @@ const MembersListPage: React.FC = () => {
           </table>
         </div>
 
-        {/* Pagination */}
         <div className={styles.pagination}>
           <div className={styles.paginationInfo}>
             Showing <span className={styles.paginationBold}>1-5</span> of 1,247

@@ -6,7 +6,6 @@ const ReturnBookPage: React.FC = () => {
   return (
     <AdminLayout>
       <div className={styles.pageWrapper}>
-        {/* Page Header */}
         <div className={styles.pageHeader}>
           <div>
             <h2 className={styles.pageTitle}>Book Return Processing</h2>
@@ -22,7 +21,6 @@ const ReturnBookPage: React.FC = () => {
           </div>
         </div>
 
-        {/* Scanner Section */}
         <div className={styles.scannerCard}>
           <div className={styles.scannerIcon}>
             <span className={`material-symbols-outlined ${styles.scanIcon}`}>
@@ -70,7 +68,6 @@ const ReturnBookPage: React.FC = () => {
           </div>
         </div>
 
-        {/* Details Section */}
         <div className={styles.detailsCard}>
           <div className={styles.cardHeader}>
             <h3 className={styles.cardTitle}>Returned Book Details</h3>
@@ -78,7 +75,6 @@ const ReturnBookPage: React.FC = () => {
           </div>
 
           <div className={styles.grid}>
-            {/* Book Info Column */}
             <div className={styles.bookInfo}>
               <div className={styles.bookPlaceholder}>
                 <span
@@ -103,7 +99,6 @@ const ReturnBookPage: React.FC = () => {
               </div>
             </div>
 
-            {/* Borrower Info Column */}
             <div className={styles.borrowerBox}>
               <h4 className={styles.borrowerHeader}>Borrower Information</h4>
               <div className={styles.borrowerProfile}>
@@ -133,7 +128,6 @@ const ReturnBookPage: React.FC = () => {
             </div>
           </div>
 
-          {/* Footer Actions */}
           <div className={styles.footer}>
             <button className={styles.btnCancel}>Cancel</button>
             <button className={styles.btnConfirm}>

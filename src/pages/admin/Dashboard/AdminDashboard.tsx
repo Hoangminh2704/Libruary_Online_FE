@@ -44,7 +44,6 @@ const AdminDashboard: React.FC = () => {
           </button>
         </div>
       </header>
-      {/* Stats Cards */}
       <div className={styles.statsGrid}>
         <StatCard
           label="Total Books"
@@ -91,7 +90,6 @@ const AdminDashboard: React.FC = () => {
           />
         </div>
 
-        {/* Recent Activity */}
         <div className={styles.chartCard}>
           <h3 className={`${styles.cardTitle} ${styles.cardTitleSpaced}`}>
             Recent Activity

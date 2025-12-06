@@ -4,7 +4,6 @@ import MainLayout from "../../../layouts/MainLayout";
 import styles from "./BookDetailPage.module.css";
 import { MOCK_BOOKS } from "../../../data/mockBooks";
 
-// Dữ liệu giả cho sách liên quan (Giống thiết kế)
 const RELATED_BOOKS = [
   {
     id: 1,
@@ -60,12 +59,10 @@ const BookDetailPage: React.FC = () => {
   const { id } = useParams();
   const navigate = useNavigate();
 
-  // Tìm sách theo ID
   const book = MOCK_BOOKS.find((b) => b.id === Number(id));
 
   useEffect(() => {
     if (!book) {
-      // Nếu không tìm thấy sách, redirect về homepage
       navigate("/user/homepage");
     }
   }, [book, navigate]);
@@ -77,7 +74,6 @@ const BookDetailPage: React.FC = () => {
   return (
     <MainLayout>
       <div className={styles.pageContainer}>
-        {/* Breadcrumb */}
         <nav className={styles.breadcrumb}>
           <a href="/user/homepage" className={styles.breadcrumbLink}>
             Home
@@ -91,9 +87,7 @@ const BookDetailPage: React.FC = () => {
           <span className={styles.breadcrumbActive}>{book.title}</span>
         </nav>
 
-        {/* Main Book Detail Card */}
         <div className={styles.mainCard}>
-          {/* Left Column: Cover */}
           <div className={styles.coverColumn}>
             <div className={styles.coverWrapper}>
               <img
@@ -104,7 +98,6 @@ const BookDetailPage: React.FC = () => {
             </div>
           </div>
 
-          {/* Right Column: Info */}
           <div className={styles.infoColumn}>
             <div className={styles.headerRow}>
               <div>
@@ -199,7 +192,6 @@ const BookDetailPage: React.FC = () => {
           </div>
         </div>
 
-        {/* Related Books Section */}
         <div className={styles.relatedSection}>
           <div className={styles.relatedHeader}>
             <h2

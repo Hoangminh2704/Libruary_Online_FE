@@ -7,7 +7,6 @@ import { MOCK_BOOKS } from "../../../data/mockBooks";
 const HomePage = () => {
   return (
     <MainLayout>
-      {/* Hero Section */}
       <section className={styles.hero}>
         <div className={styles.blob1}></div>
         <div className={styles.blob2}></div>

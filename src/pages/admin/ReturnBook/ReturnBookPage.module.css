@@ -1,4 +1,3 @@
-/* Header */
 .pageHeader {
   display: flex;
   justify-content: space-between;
@@ -27,7 +26,6 @@
   color: var(--text-subtle);
 }
 
-/* Scanner Section (Khối trên) */
 .scannerCard {
   background-color: white;
   border-radius: 0.5rem;
@@ -38,7 +36,7 @@
 }
 
 .scannerIcon {
-  background-color: #dbeafe; /* blue-100 */
+  background-color: #dbeafe;
   color: var(--primary-color);
   padding: 1rem;
   border-radius: 9999px;
@@ -67,7 +65,7 @@
 
 .input {
   width: 100%;
-  padding: 0.75rem 3rem 0.75rem 1rem; /* Padding phải chừa chỗ cho nút search */
+  padding: 0.75rem 3rem 0.75rem 1rem;
   border: 1px solid #cbd5e1;
   border-radius: 0.5rem;
   outline: none;
@@ -127,7 +125,6 @@
   background-color: #cbd5e1;
 }
 
-/* Details Section (Khối dưới) */
 .detailsCard {
   background-color: white;
   border-radius: 0.5rem;

@@ -9,7 +9,6 @@ interface StatCardProps {
 }
 
 const StatCard: React.FC<StatCardProps> = ({ label, value, icon, color }) => {
-  // Map màu sắc
   const bgColors = {
     blue: "#dbeafe",
     green: "#dcfce7",
