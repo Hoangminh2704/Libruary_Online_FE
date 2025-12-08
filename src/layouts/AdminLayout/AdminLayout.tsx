@@ -10,7 +10,7 @@ interface AdminLayoutProps {
 const AdminLayout: React.FC<AdminLayoutProps> = ({ children }) => {
   const navigate = useNavigate();
   const location = useLocation();
-  const { logout } = useAuth();
+  const { user, logout } = useAuth();
 
   const menuItems = [
     { path: "/admin/dashboard", icon: "dashboard", label: "Dashboard" },
@@ -20,8 +20,10 @@ const AdminLayout: React.FC<AdminLayoutProps> = ({ children }) => {
     { path: "/admin/settings", icon: "settings", label: "Settings" },
   ];
 
-  const handleLogout = () => {
-    logout();
+  const handleLogout = async () => {
+    console.log("👋 Logging out...");
+    await logout();
+    console.log("✅ Logout successful, redirecting to login...");
     navigate("/login");
   };
 
@@ -61,26 +63,35 @@ const AdminLayout: React.FC<AdminLayoutProps> = ({ children }) => {
           <div className={styles.profileCard}>
             <div className={styles.profileInfo}>
               <img
-                src="https://placehold.co/100x100?text=SJ"
-                alt="Admin"
+                src={`https://ui-avatars.com/api/?name=${
+                  user?.name || "Admin"
+                }&background=4361ee&color=fff`}
+                alt="Admin Avatar"
                 className={styles.avatar}
               />
               <div>
-                <p className={styles.adminName}>Sarah Johnson</p>
-                <p className={styles.adminRole}>Library Admin</p>
+                <p className={styles.adminName}>{user?.name || "Admin User"}</p>
+                <p className={styles.adminRole}>
+                  {user?.role === "ADMIN"
+                    ? "Library Admin"
+                    : user?.role || "User"}
+                </p>
               </div>
             </div>
             <button
               className={styles.expandBtn}
-              aria-label="Expand profile menu"
+              onClick={handleLogout}
+              aria-label="Logout"
+              title="Logout"
             >
-              <span className="material-symbols-outlined">expand_less</span>
+              <span
+                className="material-symbols-outlined"
+                style={{ color: "#ef4444" }}
+              >
+                logout
+              </span>
             </button>
           </div>
-          <button className={styles.logoutBtn} onClick={handleLogout}>
-            <span className="material-symbols-outlined">logout</span>
-            Logout
-          </button>
         </div>
       </aside>
 

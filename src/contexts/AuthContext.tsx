@@ -1,42 +1,74 @@
-import React, { createContext, useContext, useState, ReactNode } from "react";
+import React, {
+  createContext,
+  useContext,
+  useState,
+  ReactNode,
+  useEffect,
+} from "react";
+import authService from "../services/authService";
 
 interface User {
+  id: number;
+  name: string;
+  email: string;
   username: string;
-  role: "admin" | "user";
+  role: string;
 }
 
 interface AuthContextType {
   user: User | null;
-  login: (username: string, password: string) => boolean;
-  logout: () => void;
+  login: (username: string, password: string) => Promise<boolean>;
+  logout: () => Promise<void>;
   isAuthenticated: boolean;
+  loading: boolean;
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
-
-const MOCK_USERS = {
-  admin: { username: "admin", password: "admin123", role: "admin" as const },
-  user: { username: "user", password: "user123", role: "user" as const },
-};
 
 export const AuthProvider: React.FC<{ children: ReactNode }> = ({
   children,
 }) => {
   const [user, setUser] = useState<User | null>(null);
+  const [loading, setLoading] = useState(true);
 
-  const login = (username: string, password: string): boolean => {
-    const foundUser = Object.values(MOCK_USERS).find(
-      (u) => u.username === username && u.password === password
-    );
-
-    if (foundUser) {
-      setUser({ username: foundUser.username, role: foundUser.role });
-      return true;
+  // Khôi phục user từ localStorage khi app khởi động
+  useEffect(() => {
+    const currentUser = authService.getCurrentUser();
+    if (currentUser) {
+      setUser(currentUser);
     }
-    return false;
+    setLoading(false);
+  }, []);
+
+  const login = async (
+    username: string,
+    password: string
+  ): Promise<boolean> => {
+    try {
+      console.log("📡 Sending login request to backend...");
+      const response = await authService.login(username, password);
+
+      console.log("📥 Login response received:", {
+        token: response.token ? "✓ Token received" : "✗ No token",
+        user: response.user,
+      });
+
+      console.log("🔍 Setting user state:", response.user);
+      setUser(response.user);
+
+      console.log("✅ User state updated in AuthContext");
+      console.log("👤 Current user:", response.user);
+
+      return true;
+    } catch (error: any) {
+      console.error("❌ Login failed in AuthContext:", error);
+      console.error("📋 Error response:", error.response?.data);
+      return false;
+    }
   };
 
-  const logout = () => {
+  const logout = async (): Promise<void> => {
+    await authService.logout();
     setUser(null);
   };
 
@@ -47,6 +79,7 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({
         login,
         logout,
         isAuthenticated: !!user,
+        loading,
       }}
     >
       {children}

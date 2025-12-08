@@ -1,5 +1,6 @@
 import React from "react";
 import { useNavigate, useLocation } from "react-router-dom";
+import { useAuth } from "../../contexts/AuthContext";
 import Header from "../../components/layout/Header/Header";
 import Footer from "../../components/layout/Footer/Footer";
 import styles from "./MemberLayout.module.css";
@@ -11,6 +12,7 @@ interface MemberLayoutProps {
 const MemberLayout: React.FC<MemberLayoutProps> = ({ children }) => {
   const navigate = useNavigate();
   const location = useLocation();
+  const { user, logout } = useAuth();
 
   const menuItems = [
     {
@@ -34,6 +36,13 @@ const MemberLayout: React.FC<MemberLayoutProps> = ({ children }) => {
       label: "Profile",
     },
   ];
+
+  const handleLogout = async () => {
+    console.log("👋 Logging out...");
+    await logout();
+    console.log("✅ Logout successful, redirecting to login...");
+    navigate("/login");
+  };
 
   return (
     <div className={styles.layout}>
@@ -61,6 +70,39 @@ const MemberLayout: React.FC<MemberLayoutProps> = ({ children }) => {
               </button>
             ))}
           </nav>
+
+          <div className={styles.userProfile}>
+            <div className={styles.profileCard}>
+              <div className={styles.profileInfo}>
+                <img
+                  src={`https://ui-avatars.com/api/?name=${
+                    user?.name || "User"
+                  }&background=2563eb&color=fff`}
+                  alt="User Avatar"
+                  className={styles.avatar}
+                />
+                <div>
+                  <p className={styles.userName}>{user?.name || "User"}</p>
+                  <p className={styles.userRole}>
+                    {user?.role === "MEMBER" ? "Library Member" : user?.role || "Member"}
+                  </p>
+                </div>
+              </div>
+              <button
+                className={styles.expandBtn}
+                onClick={handleLogout}
+                aria-label="Logout"
+                title="Logout"
+              >
+                <span
+                  className="material-symbols-outlined"
+                  style={{ color: "#ef4444" }}
+                >
+                  logout
+                </span>
+              </button>
+            </div>
+          </div>
         </aside>
 
         <main className={styles.main}>{children}</main>

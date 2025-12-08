@@ -9,24 +9,65 @@ const LoginPage: React.FC = () => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
   const { login } = useAuth();
   const navigate = useNavigate();
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setError("");
+    setIsLoading(true);
 
-    const success = login(username, password);
-    if (success) {
-      const loggedInUser =
-        username === "admin" ? { role: "admin" } : { role: "user" };
-      if (loggedInUser.role === "admin") {
-        navigate("/admin/dashboard");
+    console.log("🔐 Attempting login with username:", username);
+
+    try {
+      const success = await login(username, password);
+
+      if (success) {
+        const userStr = localStorage.getItem("user");
+        console.log("📦 Raw user data from localStorage:", userStr);
+
+        if (userStr) {
+          const user = JSON.parse(userStr);
+          console.log("✅ Login successful!");
+          console.log("👤 Parsed User:", user);
+          console.log("🔑 User Role:", user.role);
+          console.log("🔍 Role Type:", typeof user.role);
+
+          // Check role - case insensitive
+          const userRole = user.role?.toUpperCase();
+          console.log("🎯 Normalized Role:", userRole);
+
+          if (userRole === "ADMIN") {
+            console.log("🔀 Redirecting to Admin Dashboard...");
+            navigate("/admin/dashboard", { replace: true });
+          } else if (userRole === "MEMBER") {
+            console.log("🔀 Redirecting to User Homepage...");
+            navigate("/user/homepage", { replace: true });
+          } else {
+            console.warn("⚠️ Unknown role:", user.role);
+            navigate("/user/homepage", { replace: true });
+          }
+        } else {
+          console.error("❌ No user data in localStorage");
+          setError("Login successful but user data not found");
+        }
       } else {
-        navigate("/user/homepage");
+        console.error("❌ Login failed: Invalid credentials");
+        setError("Invalid username or password");
       }
-    } else {
-      setError("Invalid username or password");
+    } catch (err: any) {
+      console.error("❌ Login error:", err);
+      console.error("📋 Error details:", {
+        message: err.message,
+        response: err.response?.data,
+        status: err.response?.status,
+      });
+      setError(
+        err.response?.data?.message || "Login failed. Please try again."
+      );
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -97,8 +138,8 @@ const LoginPage: React.FC = () => {
             </a>
           </div>
 
-          <button type="submit" className={styles.btn}>
-            Sign In
+          <button type="submit" className={styles.btn} disabled={isLoading}>
+            {isLoading ? "Signing in..." : "Sign In"}
           </button>
         </form>
 

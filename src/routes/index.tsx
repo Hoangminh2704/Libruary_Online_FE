@@ -1,6 +1,7 @@
 import { createBrowserRouter } from "react-router-dom";
 import LoginPage from "../pages/auth/Login/LoginPage";
 import HomePage from "../pages/member/Home/HomePage";
+import BooksPage from "../pages/member/Book/BookPage";
 import BookDetailPage from "../pages/member/BookDetail/BookDetailPage";
 import MyLoansPage from "../pages/member/MyLoans/MyLoan";
 import AdminDashboard from "../pages/admin/Dashboard/AdminDashboard";
@@ -21,15 +22,23 @@ export const router = createBrowserRouter([
       {
         path: "/user/homepage",
         element: (
-          <ProtectedRoute allowedRoles={["user"]}>
+          <ProtectedRoute allowedRoles={["MEMBER"]}>
             <HomePage />
+          </ProtectedRoute>
+        ),
+      },
+      {
+        path: "/user/books",
+        element: (
+          <ProtectedRoute allowedRoles={["MEMBER"]}>
+            <BooksPage />
           </ProtectedRoute>
         ),
       },
       {
         path: "/user/book/:id",
         element: (
-          <ProtectedRoute allowedRoles={["user"]}>
+          <ProtectedRoute allowedRoles={["MEMBER"]}>
             <BookDetailPage />
           </ProtectedRoute>
         ),
@@ -37,7 +46,7 @@ export const router = createBrowserRouter([
       {
         path: "/user/my-loans",
         element: (
-          <ProtectedRoute allowedRoles={["user"]}>
+          <ProtectedRoute allowedRoles={["MEMBER"]}>
             <MyLoansPage />
           </ProtectedRoute>
         ),
@@ -45,7 +54,7 @@ export const router = createBrowserRouter([
       {
         path: "/admin/dashboard",
         element: (
-          <ProtectedRoute allowedRoles={["admin"]}>
+          <ProtectedRoute allowedRoles={["ADMIN"]}>
             <AdminDashboard />
           </ProtectedRoute>
         ),
@@ -53,7 +62,7 @@ export const router = createBrowserRouter([
       {
         path: "/admin/catalog",
         element: (
-          <ProtectedRoute allowedRoles={["admin"]}>
+          <ProtectedRoute allowedRoles={["ADMIN"]}>
             <BookCatalogPage />
           </ProtectedRoute>
         ),
@@ -61,7 +70,7 @@ export const router = createBrowserRouter([
       {
         path: "/admin/members",
         element: (
-          <ProtectedRoute allowedRoles={["admin"]}>
+          <ProtectedRoute allowedRoles={["ADMIN"]}>
             <MembersListPage />
           </ProtectedRoute>
         ),
@@ -69,7 +78,7 @@ export const router = createBrowserRouter([
       {
         path: "/admin/returns",
         element: (
-          <ProtectedRoute allowedRoles={["admin"]}>
+          <ProtectedRoute allowedRoles={["ADMIN"]}>
             <ReturnBookPage />
           </ProtectedRoute>
         ),

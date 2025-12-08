@@ -75,7 +75,7 @@ const HomePage = () => {
         </div>
 
         <div className={styles.grid}>
-          {MOCK_BOOKS.map((book) => (
+          {MOCK_BOOKS.slice(0, 8).map((book) => (
             <BookCard key={book.id} book={book} />
           ))}
         </div>

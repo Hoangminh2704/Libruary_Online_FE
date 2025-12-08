@@ -17,6 +17,11 @@ const Header: React.FC = () => {
     navigate("/user/homepage");
   };
 
+  const handleBooksClick = (e: React.MouseEvent) => {
+    e.preventDefault();
+    navigate("/user/books");
+  };
+
   const handleAvatarClick = () => {
     navigate("/user/my-loans");
   };
@@ -37,7 +42,7 @@ const Header: React.FC = () => {
           <a href="#" className={styles.navLink} onClick={handleHomeClick}>
             Home
           </a>
-          <a href="#" className={styles.navLink}>
+          <a href="#" className={styles.navLink} onClick={handleBooksClick}>
             Books
           </a>
           <a href="#" className={styles.navLink}>
