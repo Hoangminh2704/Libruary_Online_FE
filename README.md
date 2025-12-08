@@ -228,7 +228,7 @@ Libruary FE/
 - **Queue Management**: Track reservation status
 - **Auto-notifications**: Get notified when books are ready
 
-## 🎨 UI/UX Features
+<!-- ## 🎨 UI/UX Features
 
 - **Responsive Design**: Works on desktop, tablet, and mobile
 - **Modern Interface**: Clean, intuitive design with Material Icons
@@ -398,4 +398,4 @@ For support, email support@library.com or open an issue in the GitHub repository
 
 ---
 
-**Made with ❤️ by the Library Management Team**
+**Made with ❤️ by the Library Management Team** -->
