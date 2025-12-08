@@ -1,10 +1,68 @@
-import React from "react";
+import { useState, useEffect } from "react";
 import MainLayout from "../../../layouts/MainLayout";
 import BookCard from "../../../components/specific/BookCard/BookCard";
 import styles from "./HomePage.module.css";
-import { MOCK_BOOKS } from "../../../data/mockBooks";
+import { bookService } from "../../../services/bookService";
+import type { BookItem } from "../../../types/catalog.types";
+import type { Book } from "../../../types/book.types";
 
 const HomePage = () => {
+  const [books, setBooks] = useState<Book[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+
+  const convertToBook = (item: BookItem): Book => {
+    const available = item.availableCount ?? item.availableCopies ?? 0;
+    const total = item.copiesCount ?? item.totalCopies ?? 0;
+
+    let status: "Available" | "Borrowed" | "Reserved" = "Available";
+    if (item.calculatedStatus) {
+      const backendStatus = item.calculatedStatus.toLowerCase();
+      if (backendStatus === "available") status = "Available";
+      else if (backendStatus === "limited") status = "Reserved";
+      else status = "Borrowed";
+    } else {
+      if (total === 0 || available === 0) status = "Borrowed";
+      else if (available <= total * 0.3) status = "Reserved";
+      else status = "Available";
+    }
+
+    const authorNames =
+      item.authorNames ||
+      (item.authors || []).map((a) => a.author.name).join(", ") ||
+      "Unknown Author";
+
+    return {
+      id: item.id,
+      title: item.title,
+      author: authorNames,
+      coverImage:
+        item.coverUrl || "https://via.placeholder.com/200x300?text=No+Cover",
+      rating: 4.5,
+      status,
+    };
+  };
+
+  useEffect(() => {
+    const fetchBooks = async () => {
+      try {
+        setLoading(true);
+        setError(null);
+        const data = await bookService.getAllBooks();
+        const convertedBooks = data.map(convertToBook);
+        setBooks(convertedBooks);
+      } catch (err: unknown) {
+        console.error("❌ Error fetching books:", err);
+        const errorMessage =
+          err instanceof Error ? err.message : "Failed to load books";
+        setError(errorMessage);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchBooks();
+  }, []);
   return (
     <MainLayout>
       <section className={styles.hero}>
@@ -43,16 +101,13 @@ const HomePage = () => {
               Popular searches:
             </span>
             <a href="#" className={styles.tag}>
-              Fiction
+              Software
             </a>
             <a href="#" className={styles.tag}>
-              Science
+              Engineering
             </a>
             <a href="#" className={styles.tag}>
-              History
-            </a>
-            <a href="#" className={styles.tag}>
-              Biography
+              Architecture
             </a>
           </div>
         </div>
@@ -66,7 +121,7 @@ const HomePage = () => {
               Handpicked selections from our collection
             </p>
           </div>
-          <a href="#" className={styles.viewAll}>
+          <a href="/user/books" className={styles.viewAll}>
             View All{" "}
             <span className="material-icons" style={{ fontSize: "1.25rem" }}>
               arrow_forward
@@ -74,11 +129,25 @@ const HomePage = () => {
           </a>
         </div>
 
-        <div className={styles.grid}>
-          {MOCK_BOOKS.slice(0, 8).map((book) => (
-            <BookCard key={book.id} book={book} />
-          ))}
-        </div>
+        {loading ? (
+          <div
+            style={{ textAlign: "center", padding: "3rem", color: "#64748b" }}
+          >
+            <p>Loading books...</p>
+          </div>
+        ) : error ? (
+          <div
+            style={{ textAlign: "center", padding: "3rem", color: "#ef4444" }}
+          >
+            <p>Error: {error}</p>
+          </div>
+        ) : (
+          <div className={styles.grid}>
+            {books.slice(0, 8).map((book) => (
+              <BookCard key={book.id} book={book} />
+            ))}
+          </div>
+        )}
       </section>
     </MainLayout>
   );

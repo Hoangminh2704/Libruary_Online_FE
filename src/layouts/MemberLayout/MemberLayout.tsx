@@ -84,7 +84,9 @@ const MemberLayout: React.FC<MemberLayoutProps> = ({ children }) => {
                 <div>
                   <p className={styles.userName}>{user?.name || "User"}</p>
                   <p className={styles.userRole}>
-                    {user?.role === "MEMBER" ? "Library Member" : user?.role || "Member"}
+                    {user?.role === "MEMBER"
+                      ? "Library Member"
+                      : user?.role || "Member"}
                   </p>
                 </div>
               </div>

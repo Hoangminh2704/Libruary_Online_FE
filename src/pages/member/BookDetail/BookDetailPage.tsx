@@ -1,83 +1,115 @@
-import React, { useEffect } from "react";
-import { useParams, useNavigate } from "react-router-dom";
+import React, { useEffect, useState } from "react";
+import { useParams } from "react-router-dom";
 import MainLayout from "../../../layouts/MainLayout";
+import BorrowModal from "../../../components/specific/BorrowModal/BorrowModal";
+import ReserveModal from "../../../components/specific/ReserveModal/ReserveModal";
 import styles from "./BookDetailPage.module.css";
-import { MOCK_BOOKS } from "../../../data/mockBooks";
-
-const RELATED_BOOKS = [
-  {
-    id: 1,
-    title: "Project Hail Mary",
-    author: "Andy Weir",
-    status: "Available",
-    color: "green",
-    img: "https://placehold.co/200x300?text=Hail+Mary",
-  },
-  {
-    id: 2,
-    title: "Artemis",
-    author: "Andy Weir",
-    status: "Reserved",
-    color: "yellow",
-    img: "https://placehold.co/200x300?text=Artemis",
-  },
-  {
-    id: 3,
-    title: "Seveneves",
-    author: "Neal Stephenson",
-    status: "Available",
-    color: "green",
-    img: "https://placehold.co/200x300?text=Seveneves",
-  },
-  {
-    id: 4,
-    title: "Red Mars",
-    author: "Kim Stanley Robinson",
-    status: "Available",
-    color: "green",
-    img: "https://placehold.co/200x300?text=Red+Mars",
-  },
-  {
-    id: 5,
-    title: "Aurora",
-    author: "Kim Stanley Robinson",
-    status: "Checked Out",
-    color: "red",
-    img: "https://placehold.co/200x300?text=Aurora",
-  },
-  {
-    id: 6,
-    title: "Klara and the Sun",
-    author: "Kazuo Ishiguro",
-    status: "Available",
-    color: "green",
-    img: "https://placehold.co/200x300?text=Klara",
-  },
-];
+import { bookService } from "../../../services/bookService";
+import type { BookItem } from "../../../types/catalog.types";
 
 const BookDetailPage: React.FC = () => {
-  const { id } = useParams();
-  const navigate = useNavigate();
+  const { id } = useParams<{ id: string }>();
 
-  const book = MOCK_BOOKS.find((b) => b.id === Number(id));
+  const [book, setBook] = useState<BookItem | null>(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+
+  const [isBorrowModalOpen, setIsBorrowModalOpen] = useState(false);
+  const [isReserveModalOpen, setIsReserveModalOpen] = useState(false);
 
   useEffect(() => {
-    if (!book) {
-      navigate("/user/homepage");
-    }
-  }, [book, navigate]);
+    if (!id) return;
 
-  if (!book) {
-    return null;
-  }
+    const fetchDetail = async () => {
+      try {
+        setLoading(true);
+        const data = await bookService.getBookById(Number(id));
+        setBook(data);
+      } catch (err) {
+        console.error("Failed to load book:", err);
+        setError("Book not found or server error.");
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchDetail();
+  }, [id]);
+
+  const handleBorrowBook = () => {
+    if (!book || !id) return;
+
+    const availableCopy = book.copies?.find(
+      (copy) => copy.status === "AVAILABLE"
+    );
+    if (!availableCopy) {
+      alert("No available copies at the moment. Please try reserving instead.");
+      return;
+    }
+
+    setIsBorrowModalOpen(true);
+  };
+
+  const handleReserveBook = () => {
+    if (!book || !id) return;
+    setIsReserveModalOpen(true);
+  };
+
+  const handleBorrowSuccess = async () => {
+    setIsBorrowModalOpen(false);
+    if (id) {
+      try {
+        const updatedBook = await bookService.getBookById(Number(id));
+        setBook(updatedBook);
+      } catch (err) {
+        console.error("Failed to refresh book data:", err);
+      }
+    }
+  };
+
+  const handleReserveSuccess = () => {
+    setIsReserveModalOpen(false);
+  };
+
+  if (loading)
+    return (
+      <MainLayout>
+        <div className={styles.loadingContainer}>Loading...</div>
+      </MainLayout>
+    );
+
+  if (error || !book)
+    return (
+      <MainLayout>
+        <div className={styles.errorContainer}>{error}</div>
+      </MainLayout>
+    );
+
+  const available = book.availableCount ?? book.availableCopies ?? 0;
+  const total = book.copiesCount ?? book.totalCopies ?? 0;
+  const isAvailable = available > 0;
+
+  const authorNames =
+    book.authorNames ||
+    (book.authors || []).map((a) => a.author.name).join(", ") ||
+    "Unknown Author";
+
+  const genreNames =
+    book.genreNames ||
+    (book.genres || []).map((g) => g.genre.name).join(", ") ||
+    "Uncategorized";
 
   return (
     <MainLayout>
       <div className={styles.pageContainer}>
         <nav className={styles.breadcrumb}>
-          <a href="/user/homepage" className={styles.breadcrumbLink}>
-            Home
-          </a>
+          <span
+            onClick={() => navigate("/user/books")}
+            className={styles.breadcrumbLink}
+            style={{ cursor: "pointer" }}
+          >
+            Catalog
+          </span>
           <span
             className="material-symbols-outlined"
             style={{ fontSize: "16px", margin: "0 8px" }}
@@ -91,8 +123,10 @@ const BookDetailPage: React.FC = () => {
           <div className={styles.coverColumn}>
             <div className={styles.coverWrapper}>
               <img
-                src={book.coverImage}
-                alt={`${book.title} Book Cover`}
+                src={
+                  book.coverUrl || "https://placehold.co/400x600?text=No+Cover"
+                }
+                alt={book.title}
                 className={styles.coverImage}
               />
             </div>
@@ -102,145 +136,102 @@ const BookDetailPage: React.FC = () => {
             <div className={styles.headerRow}>
               <div>
                 <h1 className={styles.bookTitle}>{book.title}</h1>
-                <p className={styles.bookAuthor}>by {book.author}</p>
+                <p className={styles.bookAuthor}>by {authorNames}</p>
               </div>
-              <button className={styles.favoriteBtn}>
-                <span
-                  className="material-symbols-outlined"
-                  style={{ color: "#6B7280" }}
-                >
-                  favorite_border
-                </span>
-              </button>
             </div>
 
             <div className={styles.metaRow}>
-              <div className={styles.stars}>
-                {[...Array(5)].map((_, i) => (
-                  <span key={i} className="material-icons">
-                    {i < Math.floor(book.rating)
-                      ? "star"
-                      : i < book.rating
-                      ? "star_half"
-                      : "star_border"}
-                  </span>
-                ))}
-              </div>
               <span className={styles.ratingText}>
-                {book.rating} (2,847 reviews)
+                {available} / {total} copies available
               </span>
-              <span className={styles.statusBadge}>{book.status}</span>
+              <span
+                className={styles.statusBadge}
+                style={{
+                  backgroundColor: isAvailable ? "#dcfce7" : "#fee2e2",
+                  color: isAvailable ? "#166534" : "#991b1b",
+                }}
+              >
+                {isAvailable ? "Available" : "Out of Stock"}
+              </span>
             </div>
 
             <div className={styles.descriptionSection}>
               <h2 className={styles.sectionHeading}>Description</h2>
               <p className={styles.descriptionText}>
-                Six days ago, astronaut Mark Watney became one of the first
-                people to walk on Mars. Now, he's sure he'll be the first person
-                to die there. After a dust storm nearly kills him and forces his
-                crew to evacuate while thinking him dead, Mark finds himself
-                stranded and completely alone.
-              </p>
-              <p className={styles.descriptionText}>
-                Chances are, though, he won't have time to starve to death. The
-                damaged machinery, unforgiving environment, or plain-old "human
-                error" are much more likely to kill him first. But Mark isn't
-                ready to give up yet.
+                {book.description || "No description available for this book."}
               </p>
             </div>
 
             <div className={styles.infoGrid}>
               <div>
                 <div className={styles.infoLabel}>ISBN:</div>
-                <div className={styles.infoValue}>978-0-553-41802-6</div>
-              </div>
-              <div>
-                <div className={styles.infoLabel}>Pages:</div>
-                <div className={styles.infoValue}>369</div>
-              </div>
-              <div>
-                <div className={styles.infoLabel}>Publication Year:</div>
-                <div className={styles.infoValue}>2011</div>
-              </div>
-              <div>
-                <div className={styles.infoLabel}>Language:</div>
-                <div className={styles.infoValue}>English</div>
+                <div className={styles.infoValue}>{book.isbn || "N/A"}</div>
               </div>
               <div>
                 <div className={styles.infoLabel}>Publisher:</div>
-                <div className={styles.infoValue}>Crown Publishing</div>
+                <div className={styles.infoValue}>
+                  {book.publisher || "N/A"}
+                </div>
               </div>
               <div>
-                <div className={styles.infoLabel}>Genre:</div>
-                <div className={styles.infoValue}>Science Fiction</div>
+                <div className={styles.infoLabel}>Year:</div>
+                <div className={styles.infoValue}>
+                  {book.publicationYear || "N/A"}
+                </div>
+              </div>
+              <div>
+                <div className={styles.infoLabel}>Language:</div>
+                <div className={styles.infoValue}>
+                  {book.language || "English"}
+                </div>
+              </div>
+              <div>
+                <div className={styles.infoLabel}>Categories:</div>
+                <div className={styles.infoValue}>{genreNames}</div>
               </div>
             </div>
 
             <div className={styles.actionButtons}>
-              <button className={styles.btnPrimary}>
+              <button
+                className={styles.btnPrimary}
+                disabled={!isAvailable}
+                onClick={handleBorrowBook}
+              >
                 <span className="material-symbols-outlined">book</span>
-                Borrow Now
+                {isAvailable ? "Borrow Now" : "Unavailable"}
               </button>
-              <button className={styles.btnOutline}>
-                <span className="material-symbols-outlined">bookmark_add</span>
-                Reserve Book
-              </button>
-              <button className={styles.btnIcon}>
-                <span className="material-symbols-outlined">share</span>
-              </button>
+
+              {!isAvailable && (
+                <button
+                  className={styles.btnSecondary}
+                  onClick={handleReserveBook}
+                >
+                  <span className="material-symbols-outlined">
+                    bookmark_add
+                  </span>
+                  Reserve Book
+                </button>
+              )}
             </div>
           </div>
         </div>
-
-        <div className={styles.relatedSection}>
-          <div className={styles.relatedHeader}>
-            <h2
-              className={styles.sectionHeading}
-              style={{ fontSize: "1.5rem", marginBottom: 0 }}
-            >
-              Related Books
-            </h2>
-            <a href="/user/homepage" className={styles.viewAllLink}>
-              View all{" "}
-              <span className="material-symbols-outlined">arrow_forward</span>
-            </a>
-          </div>
-
-          <div className={styles.relatedGrid}>
-            {RELATED_BOOKS.map((relatedBook) => (
-              <div
-                key={relatedBook.id}
-                className={styles.relatedCard}
-                onClick={() => navigate(`/user/book/${relatedBook.id}`)}
-                style={{ cursor: "pointer" }}
-              >
-                <img
-                  src={relatedBook.img}
-                  alt={relatedBook.title}
-                  className={styles.relatedImage}
-                />
-                <div>
-                  <h3 className={styles.relatedTitle}>{relatedBook.title}</h3>
-                  <p className={styles.relatedAuthor}>{relatedBook.author}</p>
-                  <p
-                    className={styles.relatedStatus}
-                    style={{
-                      color:
-                        relatedBook.color === "green"
-                          ? "#166534"
-                          : relatedBook.color === "yellow"
-                          ? "#CA8A04"
-                          : "#991B1B",
-                    }}
-                  >
-                    {relatedBook.status}
-                  </p>
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
       </div>
+
+      {isBorrowModalOpen && book && (
+        <BorrowModal
+          book={book}
+          onClose={() => setIsBorrowModalOpen(false)}
+          onSuccess={handleBorrowSuccess}
+        />
+      )}
+
+      {isReserveModalOpen && book && (
+        <ReserveModal
+          book={book}
+          onClose={() => setIsReserveModalOpen(false)}
+          onSuccess={handleReserveSuccess}
+        />
+      )}
     </MainLayout>
   );
 };

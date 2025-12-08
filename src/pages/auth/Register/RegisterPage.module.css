@@ -1,0 +1,211 @@
+.card {
+  width: 100%;
+  max-width: 480px;
+  background: white;
+  border-radius: 16px;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1),
+    0 2px 4px -1px rgba(0, 0, 0, 0.06);
+  padding: 2rem;
+}
+
+.header {
+  text-align: center;
+  margin-bottom: 2rem;
+}
+
+.logoBox {
+  width: 64px;
+  height: 64px;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  border-radius: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 1.5rem;
+  box-shadow: 0 10px 15px -3px rgba(102, 126, 234, 0.3);
+}
+
+.logoBox .material-symbols-outlined {
+  font-size: 32px;
+  color: white;
+}
+
+.title {
+  font-size: 1.875rem;
+  font-weight: 700;
+  color: #1f2937;
+  margin: 0 0 0.5rem;
+}
+
+.subtitle {
+  font-size: 0.875rem;
+  color: #6b7280;
+  margin: 0;
+}
+
+form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+
+.errorMessage {
+  color: #ef4444;
+  background-color: #fee2e2;
+  border: 1px solid #fecaca;
+  border-radius: 8px;
+  padding: 0.75rem 1rem;
+  font-size: 0.875rem;
+  text-align: center;
+  margin-bottom: 0.5rem;
+}
+
+.termsWrapper {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.5rem;
+  margin-top: -0.5rem;
+}
+
+.checkbox {
+  width: 16px;
+  height: 16px;
+  border-radius: 4px;
+  border: 1.5px solid #d1d5db;
+  margin-top: 0.125rem;
+  cursor: pointer;
+  flex-shrink: 0;
+}
+
+.checkbox:checked {
+  background-color: #667eea;
+  border-color: #667eea;
+}
+
+.checkbox:focus {
+  outline: 2px solid #667eea;
+  outline-offset: 2px;
+}
+
+.termsLabel {
+  font-size: 0.875rem;
+  color: #6b7280;
+  line-height: 1.5;
+  cursor: pointer;
+}
+
+.link {
+  color: #667eea;
+  text-decoration: none;
+  font-weight: 500;
+  transition: color 0.2s;
+}
+
+.link:hover {
+  color: #5568d3;
+  text-decoration: underline;
+}
+
+.btn {
+  width: 100%;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  border: none;
+  border-radius: 8px;
+  padding: 0.75rem 1rem;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 6px -1px rgba(102, 126, 234, 0.3);
+}
+
+.btn:hover:not(:disabled) {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 15px -3px rgba(102, 126, 234, 0.4);
+}
+
+.btn:active:not(:disabled) {
+  transform: translateY(0);
+}
+
+.btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.dividerWrapper {
+  position: relative;
+  margin: 1.5rem 0 1rem;
+  display: flex;
+  align-items: center;
+}
+
+.dividerLine {
+  flex: 1;
+  height: 1px;
+  background-color: #e5e7eb;
+}
+
+.dividerText {
+  padding: 0 1rem;
+  font-size: 0.875rem;
+  color: #9ca3af;
+  font-weight: 500;
+}
+
+.footerText {
+  text-align: center;
+  font-size: 0.875rem;
+  color: #6b7280;
+  margin-bottom: 1rem;
+}
+
+.loginBtnWrapper {
+  width: 100%;
+}
+
+.btnOutline {
+  width: 100%;
+  background: white;
+  color: #667eea;
+  border: 2px solid #667eea;
+  border-radius: 8px;
+  padding: 0.75rem 1rem;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+}
+
+.btnOutline:hover {
+  background: #f3f4f6;
+  transform: translateY(-1px);
+}
+
+.btnOutline:active {
+  transform: translateY(0);
+}
+
+@media (max-width: 640px) {
+  .card {
+    padding: 1.5rem;
+  }
+
+  .title {
+    font-size: 1.5rem;
+  }
+
+  .subtitle {
+    font-size: 0.8125rem;
+  }
+
+  .logoBox {
+    width: 56px;
+    height: 56px;
+  }
+}

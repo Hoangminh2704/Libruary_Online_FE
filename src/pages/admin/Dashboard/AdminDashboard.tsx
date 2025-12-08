@@ -1,10 +1,52 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import AdminLayout from "../../../layouts/AdminLayout/AdminLayout";
 import StatCard from "../../../components/specific/StatCard/StatCard";
 import styles from "./AdminDashboard.module.css";
-import { MOCK_STATS, MOCK_ACTIVITIES } from "../../../data/mockDashboard";
+import dashboardService from "../../../services/dashboardService";
+import { MOCK_ACTIVITIES } from "../../../data/mockDashboard";
+import type { DashboardStats } from "../../../types/dashboard.types";
 
 const AdminDashboard: React.FC = () => {
+  const [stats, setStats] = useState<DashboardStats>({
+    totalBooks: 0,
+    booksOnLoan: 0,
+    overdueItems: 0,
+    totalMembers: 0,
+  });
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+
+  useEffect(() => {
+    fetchDashboardStats();
+  }, []);
+
+  const fetchDashboardStats = async () => {
+    try {
+      setLoading(true);
+      setError(null);
+      const data = await dashboardService.getDashboardStats();
+
+      console.log("📊 Dashboard stats loaded:", data);
+      setStats(data);
+    } catch (err) {
+      console.error("❌ Error fetching dashboard stats:", err);
+      const error = err as {
+        message?: string;
+        response?: {
+          data?: { message?: string };
+          status?: number;
+        };
+      };
+      const errorMsg =
+        error.response?.data?.message ||
+        error.message ||
+        "Failed to load dashboard statistics";
+      setError(errorMsg);
+    } finally {
+      setLoading(false);
+    }
+  };
+
   const getActivityColor = (type: string) => {
     switch (type) {
       case "return":
@@ -19,6 +61,29 @@ const AdminDashboard: React.FC = () => {
         return { bg: "#f1f5f9", text: "#64748b", icon: "info" };
     }
   };
+
+  if (loading) {
+    return (
+      <AdminLayout>
+        <div className={styles.loadingContainer}>
+          <p>Loading dashboard...</p>
+        </div>
+      </AdminLayout>
+    );
+  }
+
+  if (error) {
+    return (
+      <AdminLayout>
+        <div className={styles.errorContainer}>
+          <p className={styles.errorText}>Error: {error}</p>
+          <button onClick={fetchDashboardStats} className={styles.retryBtn}>
+            Retry
+          </button>
+        </div>
+      </AdminLayout>
+    );
+  }
 
   return (
     <AdminLayout>
@@ -47,25 +112,25 @@ const AdminDashboard: React.FC = () => {
       <div className={styles.statsGrid}>
         <StatCard
           label="Total Books"
-          value={MOCK_STATS.totalBooks.toLocaleString()}
+          value={stats.totalBooks.toLocaleString()}
           icon="import_contacts"
           color="blue"
         />
         <StatCard
           label="Books on Loan"
-          value={MOCK_STATS.booksOnLoan.toLocaleString()}
+          value={stats.booksOnLoan.toLocaleString()}
           icon="local_shipping"
           color="green"
         />
         <StatCard
           label="Overdue Items"
-          value={MOCK_STATS.overdueItems}
+          value={stats.overdueItems.toString()}
           icon="error"
           color="red"
         />
         <StatCard
           label="Total Members"
-          value={MOCK_STATS.totalMembers.toLocaleString()}
+          value={stats.totalMembers.toLocaleString()}
           icon="groups"
           color="purple"
         />

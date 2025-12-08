@@ -21,30 +21,15 @@ interface RegisterRequest {
 
 const authService = {
   login: async (username: string, password: string): Promise<LoginResponse> => {
-    console.log("🌐 API Call: POST /auth/login");
-    console.log("📤 Request payload:", { username, password: "***" });
-
     const response: LoginResponse = await axiosClient.post("/auth/login", {
       username,
       password,
     });
 
-    console.log("📦 Response received from /auth/login");
-    console.log("📋 Response structure:", {
-      hasToken: !!response.token,
-      hasUser: !!response.user,
-      userRole: response.user?.role,
-      userName: response.user?.name,
-    });
-
     if (response.token && response.user) {
       localStorage.setItem("accessToken", response.token);
       localStorage.setItem("user", JSON.stringify(response.user));
-      console.log("💾 Token and user saved to localStorage");
-      console.log("👤 User info:", response.user);
-      console.log("🔑 User role:", response.user.role);
     } else {
-      console.error("⚠️ Invalid response structure:", response);
       throw new Error("Invalid response from server");
     }
 

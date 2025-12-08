@@ -103,7 +103,6 @@ const ReturnBookPage: React.FC = () => {
               <h4 className={styles.borrowerHeader}>Borrower Information</h4>
               <div className={styles.borrowerProfile}>
                 <div className={styles.avatar}>
-                  {/* Avatar Placeholder */}
                   <img
                     src="https://placehold.co/100x100?text=User"
                     alt="User"

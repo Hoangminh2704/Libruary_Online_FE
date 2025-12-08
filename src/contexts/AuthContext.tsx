@@ -31,7 +31,6 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({
   const [user, setUser] = useState<User | null>(null);
   const [loading, setLoading] = useState(true);
 
-  // Khôi phục user từ localStorage khi app khởi động
   useEffect(() => {
     const currentUser = authService.getCurrentUser();
     if (currentUser) {

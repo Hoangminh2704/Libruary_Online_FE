@@ -175,6 +175,41 @@
   display: block;
 }
 
+/* Loading & Error States */
+.loadingContainer,
+.errorContainer {
+  text-align: center;
+  padding: 3rem;
+  color: #64748b;
+}
+
+.errorText {
+  color: #ef4444;
+  margin-bottom: 1rem;
+  font-size: 1rem;
+}
+
+.retryBtn {
+  padding: 0.5rem 1rem;
+  background: #3b82f6;
+  color: white;
+  border: none;
+  border-radius: 0.5rem;
+  cursor: pointer;
+  font-size: 0.875rem;
+  transition: background 0.2s;
+}
+
+.retryBtn:hover {
+  background: #2563eb;
+}
+
+.emptyState {
+  text-align: center;
+  padding: 2rem;
+  color: #94a3b8;
+}
+
 @media (min-width: 768px) {
   .statsGrid {
     grid-template-columns: repeat(2, 1fr);

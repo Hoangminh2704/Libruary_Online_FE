@@ -178,6 +178,37 @@
 
 .bookCount {
   font-size: 0.875rem;
+  color: var(--text-subtle);
+}
+
+.headerActions {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.emptyState {
+  text-align: center;
+  padding: 3rem;
+  color: #64748b;
+}
+
+.emptyStateLink {
+  color: #3b82f6;
+  text-decoration: none;
+}
+
+.emptyStateLink:hover {
+  text-decoration: underline;
+}
+
+.iconDescriptionGray {
+  color: #64748b;
+}
+
+.renewBtn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
 }
 
 .statIconBlue {
@@ -202,8 +233,4 @@
 
 .statIconYellow .statIconSymbol {
   color: #eab308;
-}
-
-.statIconSymbol {
-  /* size will be defined by icon color variant */
 }

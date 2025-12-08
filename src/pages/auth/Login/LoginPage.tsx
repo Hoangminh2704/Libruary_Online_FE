@@ -34,7 +34,6 @@ const LoginPage: React.FC = () => {
           console.log("🔑 User Role:", user.role);
           console.log("🔍 Role Type:", typeof user.role);
 
-          // Check role - case insensitive
           const userRole = user.role?.toUpperCase();
           console.log("🎯 Normalized Role:", userRole);
 
@@ -151,7 +150,11 @@ const LoginPage: React.FC = () => {
         <div className={styles.footerText}>Don't have an account?</div>
 
         <div className={styles.createBtnWrapper}>
-          <button type="button" className={styles.btnOutline}>
+          <button
+            type="button"
+            className={styles.btnOutline}
+            onClick={() => navigate("/register")}
+          >
             <span className="material-symbols-outlined">person_add</span>
             Create an Account
           </button>

@@ -1,9 +1,11 @@
 import { createBrowserRouter } from "react-router-dom";
 import LoginPage from "../pages/auth/Login/LoginPage";
+import RegisterPage from "../pages/auth/Register/RegisterPage";
 import HomePage from "../pages/member/Home/HomePage";
 import BooksPage from "../pages/member/Book/BookPage";
 import BookDetailPage from "../pages/member/BookDetail/BookDetailPage";
 import MyLoansPage from "../pages/member/MyLoans/MyLoan";
+import ReservationsPage from "../pages/member/Reservations/ReservationsPage";
 import AdminDashboard from "../pages/admin/Dashboard/AdminDashboard";
 import BookCatalogPage from "../pages/admin/BookCatalog/BookCatalogPage";
 import MembersListPage from "../pages/admin/MemberList/MemberListPage";
@@ -18,6 +20,10 @@ export const router = createBrowserRouter([
       {
         path: "/login",
         element: <LoginPage />,
+      },
+      {
+        path: "/register",
+        element: <RegisterPage />,
       },
       {
         path: "/user/homepage",
@@ -48,6 +54,14 @@ export const router = createBrowserRouter([
         element: (
           <ProtectedRoute allowedRoles={["MEMBER"]}>
             <MyLoansPage />
+          </ProtectedRoute>
+        ),
+      },
+      {
+        path: "/user/reservations",
+        element: (
+          <ProtectedRoute allowedRoles={["MEMBER"]}>
+            <ReservationsPage />
           </ProtectedRoute>
         ),
       },

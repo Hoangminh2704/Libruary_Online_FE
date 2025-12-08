@@ -1,5 +1,5 @@
 import axios from "axios";
-import type { AxiosResponse } from "axios";
+import type { AxiosResponse, InternalAxiosRequestConfig } from "axios";
 
 const axiosClient = axios.create({
   baseURL: import.meta.env.VITE_API_URL || "http://localhost:3000",
@@ -8,9 +8,8 @@ const axiosClient = axios.create({
   },
 });
 
-// Interceptor: Tự động gắn Token vào mọi request nếu có
 axiosClient.interceptors.request.use(
-  (config) => {
+  (config: InternalAxiosRequestConfig) => {
     const token = localStorage.getItem("accessToken");
     if (token) {
       config.headers.Authorization = `Bearer ${token}`;
@@ -22,12 +21,10 @@ axiosClient.interceptors.request.use(
   }
 );
 
-// Interceptor: Xử lý lỗi trả về từ BE (ví dụ: 401 Unauthorized -> logout)
 axiosClient.interceptors.response.use(
-  (response: AxiosResponse) => response.data, // Chỉ lấy phần data
+  (response: AxiosResponse) => response.data,
   (error) => {
     if (error.response?.status === 401) {
-      // Token hết hạn hoặc không hợp lệ -> Xóa token và reload trang
       localStorage.removeItem("accessToken");
       localStorage.removeItem("user");
       window.location.href = "/login";
