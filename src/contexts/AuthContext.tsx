@@ -2,8 +2,7 @@ import React, {
   createContext,
   useContext,
   useState,
-  ReactNode,
-  useEffect,
+  type ReactNode,
 } from "react";
 import authService from "../services/authService";
 
@@ -28,16 +27,10 @@ const AuthContext = createContext<AuthContextType | undefined>(undefined);
 export const AuthProvider: React.FC<{ children: ReactNode }> = ({
   children,
 }) => {
-  const [user, setUser] = useState<User | null>(null);
-  const [loading, setLoading] = useState(true);
-
-  useEffect(() => {
-    const currentUser = authService.getCurrentUser();
-    if (currentUser) {
-      setUser(currentUser);
-    }
-    setLoading(false);
-  }, []);
+  const [user, setUser] = useState<User | null>(() =>
+    authService.getCurrentUser()
+  );
+  const loading = false;
 
   const login = async (
     username: string,
@@ -59,9 +52,12 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({
       console.log("👤 Current user:", response.user);
 
       return true;
-    } catch (error: any) {
+    } catch (error) {
       console.error("❌ Login failed in AuthContext:", error);
-      console.error("📋 Error response:", error.response?.data);
+      console.error(
+        "📋 Error response:",
+        (error as { response?: { data?: unknown } }).response?.data
+      );
       return false;
     }
   };

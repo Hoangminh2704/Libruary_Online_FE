@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import MainLayout from "../../../layouts/MainLayout";
 import BorrowModal from "../../../components/specific/BorrowModal/BorrowModal";
 import ReserveModal from "../../../components/specific/ReserveModal/ReserveModal";
@@ -9,6 +9,7 @@ import type { BookItem } from "../../../types/catalog.types";
 
 const BookDetailPage: React.FC = () => {
   const { id } = useParams<{ id: string }>();
+  const navigate = useNavigate();
 
   const [book, setBook] = useState<BookItem | null>(null);
   const [loading, setLoading] = useState(true);

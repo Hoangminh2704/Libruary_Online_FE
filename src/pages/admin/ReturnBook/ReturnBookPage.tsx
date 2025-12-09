@@ -253,7 +253,7 @@ const ReturnBookPage: React.FC = () => {
                 <div>
                   <p className={styles.infoLabel}>Borrowed Date</p>
                   <p className={styles.infoValue}>
-                    {formatDate(loanDetails?.borrowDate)}
+                    {formatDate(loanDetails?.loanDate)}
                   </p>
                 </div>
                 <div>
