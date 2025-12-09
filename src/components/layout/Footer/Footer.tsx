@@ -49,7 +49,7 @@ const Footer: React.FC = () => {
         </div>
       </div>
       <div className={styles.footerBottom}>
-        <p>© 2024 Library. All rights reserved.</p>
+        <p>© 2025 Library. All rights reserved.</p>
       </div>
     </footer>
   );

@@ -20,6 +20,7 @@ const AddBookModal: React.FC<AddBookModalProps> = ({ isOpen, onClose }) => {
     coverUrl: "",
     authors: "",
     genres: "",
+    copiesCount: "1",
   });
   const [selectedGenres, setSelectedGenres] = useState<string[]>([]);
   const [coverImageFile, setCoverImageFile] = useState<File | null>(null);
@@ -102,8 +103,14 @@ const AddBookModal: React.FC<AddBookModalProps> = ({ isOpen, onClose }) => {
           : undefined,
         language: formData.language || undefined,
         coverUrl: finalCoverUrl || undefined,
-        authorIds: [],
-        genreIds: [],
+        authors: formData.authors
+          ? formData.authors
+              .split(",")
+              .map((a) => a.trim())
+              .filter((a) => a)
+          : undefined,
+        genres: selectedGenres.length > 0 ? selectedGenres : undefined,
+        copiesCount: formData.copiesCount ? parseInt(formData.copiesCount) : 1,
       };
 
       await bookService.createBook(bookData);
@@ -121,6 +128,7 @@ const AddBookModal: React.FC<AddBookModalProps> = ({ isOpen, onClose }) => {
         coverUrl: "",
         authors: "",
         genres: "",
+        copiesCount: "1",
       });
       setSelectedGenres([]);
       setCoverImageFile(null);
@@ -308,6 +316,29 @@ const AddBookModal: React.FC<AddBookModalProps> = ({ isOpen, onClose }) => {
                 onChange={handleChange}
               />
             </div>
+          </div>
+
+          <div className={styles.row}>
+            <div>
+              <label className={styles.label}>
+                Number of Copies <span className={styles.required}>*</span>
+              </label>
+              <input
+                type="number"
+                name="copiesCount"
+                placeholder="1"
+                min="1"
+                max="100"
+                className={styles.input}
+                value={formData.copiesCount}
+                onChange={handleChange}
+                required
+              />
+              <p className={styles.helpText}>
+                How many physical copies to add to inventory
+              </p>
+            </div>
+            <div></div>
           </div>
 
           <div className={styles.row}>

@@ -16,6 +16,13 @@ export const loanService = {
     return response as unknown as LoanItem[];
   },
 
+  getLoanById: async (id: number): Promise<LoanItem> => {
+    const response = await axiosClient.get<LoanItem>(
+      `/loans/${id}?include=copy.book.authors,member.user`
+    );
+    return response as unknown as LoanItem;
+  },
+
   renewLoan: async (loanId: number): Promise<LoanItem> => {
     const response = await axiosClient.post<LoanItem>(`/loans/${loanId}/renew`);
     return response as unknown as LoanItem;
@@ -24,6 +31,18 @@ export const loanService = {
   returnBook: async (loanId: number): Promise<LoanItem> => {
     const response = await axiosClient.post<LoanItem>(
       `/loans/${loanId}/return`
+    );
+    return response as unknown as LoanItem;
+  },
+
+  returnLoan: async (
+    id: number,
+    handledByAdminId?: number
+  ): Promise<LoanItem> => {
+    const payload = handledByAdminId ? { handledByAdminId } : {};
+    const response = await axiosClient.post<LoanItem>(
+      `/loans/${id}/return`,
+      payload
     );
     return response as unknown as LoanItem;
   },

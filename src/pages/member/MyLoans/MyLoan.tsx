@@ -61,7 +61,10 @@ const MyLoansPage: React.FC = () => {
   };
 
   const formatDate = (dateString: string) => {
-    return new Date(dateString).toLocaleDateString("en-US", {
+    if (!dateString) return "Invalid Date";
+    const date = new Date(dateString);
+    if (isNaN(date.getTime())) return "Invalid Date";
+    return date.toLocaleDateString("en-US", {
       year: "numeric",
       month: "short",
       day: "numeric",
@@ -171,6 +174,7 @@ const MyLoansPage: React.FC = () => {
         <table className={styles.table}>
           <thead>
             <tr>
+              <th className={styles.th}>Loan ID</th>
               <th className={styles.th}>Book Title</th>
               <th className={styles.th}>Borrow Date</th>
               <th className={styles.th}>Due Date</th>
@@ -181,7 +185,7 @@ const MyLoansPage: React.FC = () => {
           <tbody>
             {activeLoans.length === 0 ? (
               <tr>
-                <td colSpan={5} className={styles.emptyState}>
+                <td colSpan={6} className={styles.emptyState}>
                   No active loans.{" "}
                   <a href="/user/books" className={styles.emptyStateLink}>
                     Browse catalog
@@ -200,6 +204,9 @@ const MyLoansPage: React.FC = () => {
                 return (
                   <tr key={loan.id}>
                     <td className={styles.td}>
+                      <span className={styles.loanId}>#{loan.id}</span>
+                    </td>
+                    <td className={styles.td}>
                       <div className={styles.bookInfo}>
                         <div className={styles.iconBox}>
                           <span
@@ -216,7 +223,7 @@ const MyLoansPage: React.FC = () => {
                         </div>
                       </div>
                     </td>
-                    <td className={styles.td}>{formatDate(loan.borrowDate)}</td>
+                    <td className={styles.td}>{formatDate(loan.loanDate)}</td>
                     <td className={styles.td}>{formatDate(loan.dueDate)}</td>
                     <td className={styles.td}>
                       <span

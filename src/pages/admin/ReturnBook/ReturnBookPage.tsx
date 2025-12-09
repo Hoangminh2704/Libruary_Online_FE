@@ -1,8 +1,121 @@
-import React from "react";
+import React, { useState } from "react";
 import AdminLayout from "../../../layouts/AdminLayout/AdminLayout";
 import styles from "./ReturnBookPage.module.css";
+import { loanService } from "../../../services/loanService";
+import type { LoanItem } from "../../../types/loan.types";
+
+type ScanStatus = "idle" | "found" | "error";
 
 const ReturnBookPage: React.FC = () => {
+  const [inputId, setInputId] = useState<string>("");
+  const [loanDetails, setLoanDetails] = useState<LoanItem | null>(null);
+  const [loading, setLoading] = useState<boolean>(false);
+  const [scanStatus, setScanStatus] = useState<ScanStatus>("idle");
+
+  const handleSearch = async () => {
+    if (!inputId.trim()) {
+      alert("Please enter a Loan ID");
+      return;
+    }
+
+    const loanId = parseInt(inputId);
+    if (isNaN(loanId)) {
+      alert("Invalid Loan ID. Please enter a valid number.");
+      return;
+    }
+
+    setLoading(true);
+    setScanStatus("idle");
+
+    try {
+      const loan = await loanService.getLoanById(loanId);
+      setLoanDetails(loan);
+      setScanStatus("found");
+    } catch {
+      alert("Loan not found or an error occurred. Please check the Loan ID.");
+      setScanStatus("error");
+      setLoanDetails(null);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleKeyPress = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === "Enter") {
+      handleSearch();
+    }
+  };
+
+  const handleConfirmReturn = async () => {
+    if (!loanDetails) {
+      alert("No loan details found. Please search for a loan first.");
+      return;
+    }
+
+    const confirmed = window.confirm(
+      `Are you sure you want to confirm the return of "${
+        loanDetails.copy?.book?.title || "this book"
+      }"?`
+    );
+
+    if (!confirmed) {
+      return;
+    }
+
+    setLoading(true);
+
+    try {
+      await loanService.returnLoan(loanDetails.id);
+      alert("Book returned successfully!");
+      handleCancel();
+    } catch {
+      alert("Failed to return the book. Please try again.");
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleCancel = () => {
+    setInputId("");
+    setLoanDetails(null);
+    setScanStatus("idle");
+  };
+
+  const formatDate = (dateString?: string) => {
+    if (!dateString) return "-";
+    return new Date(dateString).toLocaleDateString("en-US", {
+      month: "short",
+      day: "numeric",
+      year: "numeric",
+    });
+  };
+
+  const getAuthors = () => {
+    const authors = loanDetails?.copy?.book?.authors;
+    if (!authors || authors.length === 0) return "-";
+    return authors.map((a) => a.author.name).join(", ");
+  };
+
+  const getStatusBadge = () => {
+    if (scanStatus === "found" && loanDetails) {
+      return "Found";
+    }
+    if (scanStatus === "error") {
+      return "Not Found";
+    }
+    return "Awaiting Scan";
+  };
+
+  const getBadgeClass = () => {
+    if (scanStatus === "found") {
+      return `${styles.badge} ${styles.badgeSuccess}`;
+    }
+    if (scanStatus === "error") {
+      return `${styles.badge} ${styles.badgeError}`;
+    }
+    return styles.badge;
+  };
+
   return (
     <AdminLayout>
       <div className={styles.pageWrapper}>
@@ -35,14 +148,22 @@ const ReturnBookPage: React.FC = () => {
           <div className={styles.inputWrapper}>
             <input
               type="text"
-              placeholder="Scan barcode or enter Book ID (e.g., BK001234)"
+              placeholder="Enter Loan ID (e.g., 123)"
               className={styles.input}
+              value={inputId}
+              onChange={(e) => setInputId(e.target.value)}
+              onKeyPress={handleKeyPress}
+              disabled={loading}
             />
-            <button className={styles.searchBtn}>
+            <button
+              className={styles.searchBtn}
+              onClick={handleSearch}
+              disabled={loading}
+            >
               <span
                 className={`material-symbols-outlined ${styles.searchIcon}`}
               >
-                search
+                {loading ? "progress_activity" : "search"}
               </span>
             </button>
           </div>
@@ -71,30 +192,40 @@ const ReturnBookPage: React.FC = () => {
         <div className={styles.detailsCard}>
           <div className={styles.cardHeader}>
             <h3 className={styles.cardTitle}>Returned Book Details</h3>
-            <span className={styles.badge}>Awaiting Scan</span>
+            <span className={getBadgeClass()}>{getStatusBadge()}</span>
           </div>
 
           <div className={styles.grid}>
             <div className={styles.bookInfo}>
               <div className={styles.bookPlaceholder}>
-                <span
-                  className={`material-symbols-outlined ${styles.bookIcon}`}
-                >
-                  menu_book
-                </span>
+                {loanDetails?.copy?.book?.coverUrl ? (
+                  <img
+                    src={loanDetails.copy.book.coverUrl}
+                    alt={loanDetails.copy.book.title}
+                    className={styles.bookCoverImage}
+                  />
+                ) : (
+                  <span
+                    className={`material-symbols-outlined ${styles.bookIcon}`}
+                  >
+                    menu_book
+                  </span>
+                )}
               </div>
               <div className={styles.infoRows}>
                 <div>
                   <p className={styles.infoLabel}>Book Title</p>
-                  <p className={styles.infoValue}>-</p>
+                  <p className={styles.infoValue}>
+                    {loanDetails?.copy?.book?.title || "-"}
+                  </p>
                 </div>
                 <div>
                   <p className={styles.infoLabel}>Author</p>
-                  <p className={styles.infoValue}>-</p>
+                  <p className={styles.infoValue}>{getAuthors()}</p>
                 </div>
                 <div>
-                  <p className={styles.infoLabel}>Book ID</p>
-                  <p className={styles.infoValue}>-</p>
+                  <p className={styles.infoLabel}>Loan ID</p>
+                  <p className={styles.infoValue}>{loanDetails?.id || "-"}</p>
                 </div>
               </div>
             </div>
@@ -110,26 +241,44 @@ const ReturnBookPage: React.FC = () => {
                   />
                 </div>
                 <div className={styles.infoRows}>
-                  <p className={styles.infoValue}>-</p>
-                  <p className={styles.infoLabel}>-</p>
+                  <p className={styles.infoValue}>
+                    {loanDetails?.member?.user?.name || "-"}
+                  </p>
+                  <p className={styles.infoLabel}>
+                    {loanDetails?.member?.user?.email || "-"}
+                  </p>
                 </div>
               </div>
               <div className={styles.dateRow}>
                 <div>
                   <p className={styles.infoLabel}>Borrowed Date</p>
-                  <p className={styles.infoValue}>-</p>
+                  <p className={styles.infoValue}>
+                    {formatDate(loanDetails?.borrowDate)}
+                  </p>
                 </div>
                 <div>
                   <p className={styles.infoLabel}>Due Date</p>
-                  <p className={styles.infoValue}>-</p>
+                  <p className={styles.infoValue}>
+                    {formatDate(loanDetails?.dueDate)}
+                  </p>
                 </div>
               </div>
             </div>
           </div>
 
           <div className={styles.footer}>
-            <button className={styles.btnCancel}>Cancel</button>
-            <button className={styles.btnConfirm}>
+            <button
+              className={styles.btnCancel}
+              onClick={handleCancel}
+              disabled={loading}
+            >
+              Cancel
+            </button>
+            <button
+              className={styles.btnConfirm}
+              onClick={handleConfirmReturn}
+              disabled={loading || !loanDetails}
+            >
               <span
                 className={`material-symbols-outlined ${styles.confirmIcon}`}
               >

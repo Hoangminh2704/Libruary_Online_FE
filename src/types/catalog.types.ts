@@ -72,6 +72,7 @@ export interface CreateBookRequest {
   publicationYear?: number;
   language?: string;
   coverUrl?: string;
-  authorIds: number[];
-  genreIds: number[];
+  authors?: string[];
+  genres?: string[];
+  copiesCount?: number;
 }
