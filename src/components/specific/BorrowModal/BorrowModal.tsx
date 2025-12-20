@@ -52,13 +52,29 @@ const BorrowModal: React.FC<BorrowModalProps> = ({
         return;
       }
 
+      console.log("📚 Borrowing book:", {
+        bookTitle: book.title,
+        copyId: availableCopy.id,
+        returnDate: returnDate,
+      });
+
       await loanService.createLoan(availableCopy.id, returnDate);
       alert(`Successfully borrowed "${book.title}"!`);
       onSuccess();
     } catch (err: unknown) {
       console.error("❌ Error borrowing book:", err);
-      const errorMessage =
-        err instanceof Error ? err.message : "Failed to borrow book";
+      let errorMessage = "Failed to borrow book";
+      
+      // Extract more specific error message
+      if (err && typeof err === 'object' && 'response' in err) {
+        const response = (err as { response?: { data?: { message?: string } } }).response;
+        if (response?.data?.message) {
+          errorMessage = response.data.message;
+        }
+      } else if (err instanceof Error) {
+        errorMessage = err.message;
+      }
+      
       setError(errorMessage);
     } finally {
       setLoading(false);

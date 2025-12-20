@@ -3,10 +3,12 @@ import AdminLayout from "../../../layouts/AdminLayout/AdminLayout";
 import styles from "./ReturnBookPage.module.css";
 import { loanService } from "../../../services/loanService";
 import type { LoanItem } from "../../../types/loan.types";
+import { useAuth } from "../../../contexts/AuthContext";
 
 type ScanStatus = "idle" | "found" | "error";
 
 const ReturnBookPage: React.FC = () => {
+  const { user } = useAuth();
   const [inputId, setInputId] = useState<string>("");
   const [loanDetails, setLoanDetails] = useState<LoanItem | null>(null);
   const [loading, setLoading] = useState<boolean>(false);
@@ -52,6 +54,11 @@ const ReturnBookPage: React.FC = () => {
       return;
     }
 
+    if (!user) {
+      alert("Admin user not found. Please login again.");
+      return;
+    }
+
     const confirmed = window.confirm(
       `Are you sure you want to confirm the return of "${
         loanDetails.copy?.book?.title || "this book"
@@ -65,11 +72,18 @@ const ReturnBookPage: React.FC = () => {
     setLoading(true);
 
     try {
-      await loanService.returnLoan(loanDetails.id);
+      console.log("🔄 Attempting to return loan:", {
+        loanId: loanDetails.id,
+        adminId: user.id,
+      });
+      await loanService.returnLoan(loanDetails.id, user.id);
       alert("Book returned successfully!");
       handleCancel();
-    } catch {
-      alert("Failed to return the book. Please try again.");
+    } catch (error) {
+      console.error("❌ Failed to return book:", error);
+      const errorMessage =
+        error instanceof Error ? error.message : "Unknown error occurred";
+      alert(`Failed to return the book: ${errorMessage}`);
     } finally {
       setLoading(false);
     }
